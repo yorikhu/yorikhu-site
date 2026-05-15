@@ -7,14 +7,12 @@ const WEB_PORT = 3000;
 // Start API
 const api = spawn('pnpm', ['--filter', 'api', 'dev'], {
   stdio: 'pipe',
-  shell: true,
   cwd: path.join(__dirname, '..')
 });
 
 // Start Web
 const web = spawn('pnpm', ['--filter', 'web', 'dev'], {
   stdio: 'pipe',
-  shell: true,
   cwd: path.join(__dirname, '..')
 });
 
