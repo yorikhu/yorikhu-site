@@ -4,18 +4,17 @@ const path = require('path');
 const API_PORT = 5000;
 const WEB_PORT = 3000;
 
-// Use pnpm.cmd on Windows, pnpm on other platforms
-const pnpmCmd = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
-
-// Start API
-const api = spawn(pnpmCmd, ['--filter', 'api', 'dev'], {
+// Start API (shell mode is safe here since args are hardcoded literals)
+const api = spawn('pnpm --filter api dev', {
   stdio: 'pipe',
+  shell: true,
   cwd: path.join(__dirname, '..')
 });
 
 // Start Web
-const web = spawn(pnpmCmd, ['--filter', 'web', 'dev'], {
+const web = spawn('pnpm --filter web dev', {
   stdio: 'pipe',
+  shell: true,
   cwd: path.join(__dirname, '..')
 });
 

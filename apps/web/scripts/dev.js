@@ -1,10 +1,8 @@
 const { spawn } = require('child_process');
 
-// Use npx.cmd on Windows, npx on other platforms
-const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-
-const next = spawn(npxCmd, ['next', 'dev'], {
-  stdio: 'inherit'
+const next = spawn('npx next dev', {
+  stdio: 'inherit',
+  shell: true
 });
 
 next.on('error', (err) => {
