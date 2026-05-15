@@ -1,6 +1,9 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
+// Suppress deprecation warnings from pnpm internals
+process.env.NODE_NO_WARNINGS = '1';
+
 const API_PORT = 5000;
 const WEB_PORT = 3000;
 
