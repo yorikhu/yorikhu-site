@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): { message: string } {
     return {
-      message: 'Yorik Creative Lab API',
+      message: 'Yorik Hu API',
     };
   }
 }

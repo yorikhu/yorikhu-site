@@ -17,7 +17,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yorik Creative Lab",
+  title: "Yorik Hu",
   description: "融合设计、代码与 AI，构建数字生命",
 };
 
