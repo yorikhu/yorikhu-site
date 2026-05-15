@@ -1,0 +1,670 @@
+
+	      <!DOCTYPE html>
+<html>
+  <head>
+    <title>CodeSandbox</title>
+
+    <script type="importmap">
+      {"imports":{"react":"https://esm.sh/react@18.3.1","lucide-react":"https://esm.sh/lucide-react?external=react,react-dom","react-dom":"https://esm.sh/react-dom@18.3.1","react/jsx-runtime":"https://esm.sh/react@18.3.1/jsx-runtime","react-dom/client":"https://esm.sh/react-dom@18.3.1/client","tailwindcss/defaultTheme":"https://esm.sh/tailwindcss/defaultTheme","tailwindcss-animate":"https://esm.sh/tailwindcss-animate"}}
+    </script>
+
+    <script>
+      window.addEventListener("error", function (event) {
+        const errorObj = {
+          message: event.message,
+          source: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+          stack: event.error ? event.error.stack : null
+        };
+        window.parent.postMessage(
+          { action: "error", error: JSON.stringify(errorObj) },
+          "*"
+        );
+        event.preventDefault();
+      });
+
+  function handleImportError(error) {
+    throw new Error('Import module failed: ' + error.target.src);
+  }
+
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.tagName === 'SCRIPT' && node.type === 'module') {
+          node.onerror = handleImportError;
+        }
+      });
+    });
+  });
+
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  document.querySelectorAll('script[type="module"]').forEach(script => {
+    script.onerror = handleImportError;
+  });
+
+  
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+
+
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
+    <style type="text/tailwindcss">
+      @layer base {
+        :root {
+          --background: 0 0% 100%;
+          --foreground: 222.2 47.4% 11.2%;
+
+          --muted: 210 40% 96.1%;
+          --muted-foreground: 215.4 16.3% 46.9%;
+
+          --popover: 0 0% 100%;
+          --popover-foreground: 222.2 47.4% 11.2%;
+
+          --border: 214.3 31.8% 91.4%;
+          --input: 214.3 31.8% 91.4%;
+
+          --card: 0 0% 100%;
+          --card-foreground: 222.2 47.4% 11.2%;
+
+          --primary: 222.2 47.4% 11.2%;
+          --primary-foreground: 210 40% 98%;
+
+          --secondary: 210 40% 96.1%;
+          --secondary-foreground: 222.2 47.4% 11.2%;
+
+          --accent: 210 40% 96.1%;
+          --accent-foreground: 222.2 47.4% 11.2%;
+
+          --destructive: 0 100% 50%;
+          --destructive-foreground: 210 40% 98%;
+
+          --ring: 215 20.2% 65.1%;
+
+          --radius: 0.5rem;
+        }
+
+        .dark {
+          --background: 224 71% 4%;
+          --foreground: 213 31% 91%;
+
+          --muted: 223 47% 11%;
+          --muted-foreground: 215.4 16.3% 56.9%;
+
+          --accent: 216 34% 17%;
+          --accent-foreground: 210 40% 98%;
+
+          --popover: 224 71% 4%;
+          --popover-foreground: 215 20.2% 65.1%;
+
+          --border: 216 34% 17%;
+          --input: 216 34% 17%;
+
+          --card: 224 71% 4%;
+          --card-foreground: 213 31% 91%;
+
+          --primary: 210 40% 98%;
+          --primary-foreground: 222.2 47.4% 1.2%;
+
+          --secondary: 222.2 47.4% 11.2%;
+          --secondary-foreground: 210 40% 98%;
+
+          --destructive: 0 63% 31%;
+          --destructive-foreground: 210 40% 98%;
+
+          --ring: 216 34% 17%;
+
+          --radius: 0.5rem;
+        }
+      }
+    </style>
+    <script type="module">
+          import defaultTheme from "tailwindcss/defaultTheme"
+          import tailwindcssAnimate from "tailwindcss-animate"
+
+          const fontFamily = defaultTheme.fontFamily;
+
+          tailwind.config = {
+            darkMode: ["class"],
+        content: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
+        theme: {
+          container: {
+            center: true,
+            padding: "2rem",
+            screens: {
+              "2xl": "1400px",
+            },
+          },
+          extend: {
+            colors: {
+              border: "hsl(var(--border))",
+              input: "hsl(var(--input))",
+              ring: "hsl(var(--ring))",
+              background: "hsl(var(--background))",
+              foreground: "hsl(var(--foreground))",
+              primary: {
+                DEFAULT: "hsl(var(--primary))",
+                foreground: "hsl(var(--primary-foreground))",
+              },
+              secondary: {
+                DEFAULT: "hsl(var(--secondary))",
+                foreground: "hsl(var(--secondary-foreground))",
+              },
+              destructive: {
+                DEFAULT: "hsl(var(--destructive))",
+                foreground: "hsl(var(--destructive-foreground))",
+              },
+              muted: {
+                DEFAULT: "hsl(var(--muted))",
+                foreground: "hsl(var(--muted-foreground))",
+              },
+              accent: {
+                DEFAULT: "hsl(var(--accent))",
+                foreground: "hsl(var(--accent-foreground))",
+              },
+              popover: {
+                DEFAULT: "hsl(var(--popover))",
+                foreground: "hsl(var(--popover-foreground))",
+              },
+              card: {
+                DEFAULT: "hsl(var(--card))",
+                foreground: "hsl(var(--card-foreground))",
+              },
+            },
+            borderRadius: {
+              lg: `var(--radius)`,
+              md: `calc(var(--radius) - 2px)`,
+              sm: "calc(var(--radius) - 4px)",
+            },
+            fontFamily: {
+              sans: [...fontFamily.sans],
+            },
+
+            keyframes: {
+              "accordion-down": {
+                from: { height: "0" },
+                to: { height: "var(--radix-accordion-content-height)" },
+              },
+              "accordion-up": {
+                from: { height: "var(--radix-accordion-content-height)" },
+                to: { height: "0" },
+              },
+            },
+            animation: {
+              "accordion-down": "accordion-down 0.2s ease-out",
+              "accordion-up": "accordion-up 0.2s ease-out",
+            },
+          },
+        },
+        plugins: [tailwindcssAnimate]
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.27.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel" data-type="module">
+      		  import {createRoot} from "react-dom/client";
+            
+      		  import React, { useState, useEffect } from 'react';
+import { Terminal, Sprout, Code, Image as ImageIcon, Sparkles, Box, Cpu, Fingerprint, ArrowRight, ArrowDown, FileCode2, FileJson, FileText, Layers, Wand2 } from 'lucide-react';
+
+const YorikPortfolio = () => {
+  const [terminalText, setTerminalText] = useState('');
+  const [isHoveringName, setIsHoveringName] = useState(false);
+  const [terminalOffset, setTerminalOffset] = useState({ x: 0, y: 0 });
+  const [isHoveringTerminal, setIsHoveringTerminal] = useState(false);
+  const fullText = '> connect yorik\n> initiating protocol...\n> verifying credentials...\n> connection established.\n> _';
+
+  useEffect(() => {
+    let i = 0;
+    const typing = setInterval(() => {
+      setTerminalText(fullText.slice(0, i));
+      i++;
+      if (i > fullText.length) clearInterval(typing);
+    }, 80);
+    return () => clearInterval(typing);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#0D0D0D] text-gray-300 font-sans selection:bg-[#7C5CFF] selection:text-white relative overflow-hidden">
+      {/* Global Custom Styles for Glitch, Pixel Fonts, and CRT */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+        
+        body {
+          font-family: 'Space Grotesk', sans-serif;
+        }
+        .font-mono {
+          font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .crt::before {
+          content: " ";
+          display: block;
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+          z-index: 50;
+          background-size: 100% 2px, 3px 100%;
+          pointer-events: none;
+        }
+
+        .glitch-hover:hover {
+          animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+          border-color: #00F0FF;
+          box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .text-glitch-hover:hover {
+          animation: text-glitch 0.2s linear infinite;
+        }
+
+        @keyframes glitch-anim {
+          0% { transform: translate(0) }
+          20% { transform: translate(-2px, 2px) }
+          40% { transform: translate(-2px, -2px) }
+          60% { transform: translate(2px, 2px) }
+          80% { transform: translate(2px, -2px) }
+          100% { transform: translate(0) }
+        }
+
+        @keyframes text-glitch {
+          0% { text-shadow: 2px 0 #00F0FF, -2px 0 #FF5E7E; }
+          50% { text-shadow: -2px 0 #00F0FF, 2px 0 #FF5E7E; }
+          100% { text-shadow: 2px 0 #00F0FF, -2px 0 #FF5E7E; }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .card-glow::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+          opacity: 0;
+          transition: opacity 0.5s;
+          z-index: 1;
+        }
+        .card-glow:hover::before {
+          opacity: 1;
+        }
+        
+        .glow-text {
+          text-shadow: 0 0 20px rgba(124, 92, 255, 0.5);
+        }
+      `}} />
+
+      <div className="crt"></div>
+
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full p-6 flex justify-between items-center z-40 backdrop-blur-md border-b border-white/5 bg-[#0D0D0D]/70">
+        <div className="flex items-center gap-2 text-white font-bold tracking-widest cursor-pointer hover:opacity-80 transition-opacity">
+          <Sprout size={24} className="text-[#8BFFB7]" />
+          <span>YORIK HU</span>
+        </div>
+        <div className="hidden md:flex gap-8 text-sm font-mono tracking-wider text-gray-500">
+          <a href="#works" className="hover:text-[#00F0FF] hover:drop-shadow-[0_0_8px_rgba(0,240,255,0.5)] transition-all">WORKS</a>
+          <a href="#systems" className="hover:text-[#7C5CFF] hover:drop-shadow-[0_0_8px_rgba(124,92,255,0.5)] transition-all">SYSTEMS</a>
+          <a href="#fragments" className="hover:text-[#8BFFB7] hover:drop-shadow-[0_0_8px_rgba(139,255,183,0.5)] transition-all">FRAGMENTS</a>
+          <a href="#contact" className="hover:text-[#FF5E7E] hover:drop-shadow-[0_0_8px_rgba(255,94,126,0.5)] transition-all">TERMINAL</a>
+        </div>
+      </nav>
+
+      {/* Section 1: Hero */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 md:px-20 pt-20 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7C5CFF]/10 via-transparent to-transparent opacity-50 blur-3xl"></div>
+        
+        <div className="w-full max-w-[2400px] flex flex-col md:flex-row items-center justify-center gap-[clamp(2rem,10vmin,16rem)] z-10">
+          <div className="w-full md:w-auto z-10 space-y-[clamp(1rem,3vmin,3rem)]">
+          <div className="inline-block px-[clamp(0.75rem,1.5vmin,1.5rem)] py-[clamp(0.25rem,0.5vmin,0.5rem)] border border-[#7C5CFF]/30 text-[#7C5CFF] text-[clamp(0.75rem,1.5vmin,1.25rem)] font-mono rounded-full mb-2 animate-pulse">
+            STATUS: ONLINE // VERSION 2.0
+          </div>
+          <h1 className="text-[clamp(3.5rem,12vmin,18rem)] font-bold text-white leading-none glow-text tracking-tighter flex flex-col gap-[clamp(0.5rem,2vmin,3rem)]">
+            <span className="text-glitch-hover cursor-default">TECH</span>
+            <span className="flex items-center gap-[clamp(1rem,3vmin,4rem)] pl-[clamp(1rem,4vmin,6rem)] text-glitch-hover cursor-default">
+              <span className="text-gray-700 font-light">×</span> ART
+            </span>
+            <span className="flex items-center gap-[clamp(1rem,3vmin,4rem)] pl-[clamp(2rem,8vmin,12rem)] text-[#7C5CFF] text-glitch-hover cursor-default">
+              <span className="text-gray-700 font-light">×</span> ALIVE
+            </span>
+          </h1>
+          <p className="text-[clamp(1.125rem,2.2vmin,2.5rem)] text-gray-400 max-w-[clamp(30rem,50vmin,65rem)] font-light leading-relaxed">
+            <span 
+              className="flex items-center gap-4 mb-4 w-max cursor-crosshair group/name"
+              onMouseEnter={() => setIsHoveringName(true)}
+              onMouseLeave={() => setIsHoveringName(false)}
+            >
+              <span className="text-white font-medium group-hover/name:text-[#00F0FF] transition-colors duration-300">我是 攸悠</span>
+              <span className={`inline-flex items-center justify-center w-[120px] px-3 py-1 border rounded-sm text-[0.7em] font-mono tracking-widest transition-all duration-300 relative overflow-hidden ${
+                isHoveringName 
+                  ? 'border-[#FF5E7E]/60 bg-[#FF5E7E]/10 text-white shadow-[0_0_15px_rgba(255,94,126,0.4)] scale-105' 
+                  : 'border-[#8BFFB7]/30 bg-[#8BFFB7]/10 text-[#8BFFB7]'
+              }`}>
+                {isHoveringName && <span className="absolute inset-0 bg-[#FF5E7E]/20 animate-pulse"></span>}
+                <span className={isHoveringName ? 'inline-block animate-[text-glitch_0.15s_linear_infinite]' : ''}>
+                  {isHoveringName ? '胡永琪' : 'YORIK HU'}
+                </span>
+              </span>
+            </span>
+            融合设计、代码与 AI，构建数字生命。<br/>
+            这不是一个普通的主页，这是我的数字世界。
+          </p>
+          <div className="pt-[clamp(1rem,3vmin,4rem)]">
+            <button className="group flex items-center gap-3 bg-white text-black px-[clamp(2rem,4vmin,5rem)] py-[clamp(1rem,2vmin,2.5rem)] font-bold text-[clamp(1rem,1.8vmin,2rem)] hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+              EXPLORE UNIVERSE <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform w-[clamp(1.125rem,2vmin,2.5rem)] h-[clamp(1.125rem,2vmin,2.5rem)]" />
+            </button>
+          </div>
+        </div>
+        
+        {/* Hero Right - IP/Visual Placeholder */}
+        <div className="w-full md:w-auto mt-8 md:mt-0 flex justify-center relative">
+          <div className="w-[clamp(16rem,30vmin,45rem)] h-[clamp(20rem,45vmin,65rem)] border border-white/10 relative group glitch-hover flex items-center justify-center bg-[#0D0D0D] overflow-hidden">
+            {/* Grid background pattern */}
+            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#8BFFB7 1px, transparent 1px)', backgroundSize: 'clamp(20px, 3vmin, 32px) clamp(20px, 3vmin, 32px)' }}></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#7C5CFF] to-transparent opacity-50"></div>
+            
+            <div className="text-center z-10 animate-float">
+               <Sprout className="text-[#8BFFB7] mx-auto mb-[clamp(1rem,3vmin,2rem)] drop-shadow-[0_0_15px_rgba(139,255,183,0.6)] w-[clamp(4rem,10vmin,12rem)] h-[clamp(4rem,10vmin,12rem)]" />
+               <p className="font-mono text-[clamp(0.875rem,1.8vmin,2rem)] text-[#00F0FF]">YORIK_ENTITY_01</p>
+               <p className="text-[clamp(0.75rem,1.5vmin,1.5rem)] text-gray-600 mt-2 font-mono blink">Awaiting Instructions...</p>
+            </div>
+            
+            {/* Corner decorations */}
+            <div className="absolute top-4 left-4 w-[clamp(0.5rem,1.5vmin,1.5rem)] h-[clamp(0.5rem,1.5vmin,1.5rem)] border-t border-l border-[#7C5CFF]"></div>
+            <div className="absolute bottom-4 right-4 w-[clamp(0.5rem,1.5vmin,1.5rem)] h-[clamp(0.5rem,1.5vmin,1.5rem)] border-b border-r border-[#7C5CFF]"></div>
+          </div>
+        </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="w-full flex justify-center mt-[clamp(2rem,6vmin,10rem)] z-20">
+          <div className="animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+            <ArrowDown className="text-white/60 hover:text-white w-[clamp(2rem,4vmin,5rem)] h-[clamp(2rem,4vmin,5rem)]" />
+          </div>
+        </div>
+      </section>
+
+      {/* Section 2: Selected Works */}
+      <section id="works" className="py-32 px-6 md:px-20 border-t border-white/5 relative">
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-16 text-glitch-hover inline-block">
+          SELECTED<br/><span className="text-gray-600">WORKS.</span>
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { title: '数字摄影 01', tag: 'Photography', color: 'border-[#7C5CFF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop' },
+            { title: '光影实验', tag: 'Photography', color: 'border-[#00F0FF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop' },
+            { title: '数字画廊', tag: 'WebGL', color: 'border-[#8BFFB7]', height: 'h-80', img: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop' },
+            { title: '品牌视觉重构', tag: 'UI / UX', color: 'border-[#FF5E7E]', height: 'h-80', img: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=600&auto=format&fit=crop' },
+            { title: '动效实验 04', tag: 'Framer Motion', color: 'border-[#7C5CFF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop' },
+            { title: '智能生成组件', tag: 'Agent', color: 'border-gray-500', height: 'h-80', img: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=600&auto=format&fit=crop' },
+          ].map((work, i) => (
+            <div key={i} className={`group border border-white/10 bg-white/5 relative flex flex-col justify-end transition-all duration-500 overflow-hidden cursor-pointer hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(255,255,255,0.1)] ${work.height} hover:${work.color} hover:border`}>
+              {work.img ? (
+                <img src={work.img} alt={work.title} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-90 transition-opacity duration-700 mix-blend-luminosity group-hover:mix-blend-normal group-hover:scale-105" />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent group-hover:from-white/10 transition-colors"></div>
+              )}
+              <div className="absolute top-4 right-4 text-white/20 group-hover:text-white/80 z-10 transition-colors">
+                <ImageIcon size={24} />
+              </div>
+              <div className="p-6 z-10 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-transparent w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <p className="font-mono text-xs mb-2 text-gray-500 group-hover:text-[#00F0FF] transition-colors">{work.tag}</p>
+                <h3 className="text-xl font-bold text-white">{work.title}</h3>
+                <div className="w-0 h-[2px] bg-white mt-4 group-hover:w-full transition-all duration-500"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Section 3: Creative Systems */}
+      <section id="systems" className="py-32 px-6 md:px-20 border-t border-white/5 relative">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#7C5CFF]/10 via-transparent to-transparent opacity-40 pointer-events-none"></div>
+        
+        <div className="w-full relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 text-glitch-hover inline-block">
+            CREATIVE<br/><span className="text-[#7C5CFF]">SYSTEMS.</span>
+          </h2>
+          <p className="text-gray-400 mb-16 text-lg max-w-2xl font-light">
+            我不仅是视觉创作者，也是 AI 系统构建者。让创意不再是单次产出，而是可以运转的工业化引擎。
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="group relative border border-white/10 bg-[#121016]/50 backdrop-blur-sm p-10 overflow-hidden card-glow transition-colors hover:border-[#7C5CFF]/50">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Cpu size={120} className="text-[#7C5CFF] -rotate-12" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-[#7C5CFF]/10 flex items-center justify-center rounded mb-8 border border-[#7C5CFF]/20 group-hover:border-[#7C5CFF] transition-colors">
+                  <Cpu className="text-[#7C5CFF]" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#7C5CFF] transition-colors">AI Agent 工作流</h3>
+                <p className="text-gray-500 font-light leading-relaxed mb-8">基于 LLM 与自动化工具构建的内容生产流水线，将繁杂的设计草图自动转化为多端适配的数字资产。</p>
+                <div className="font-mono text-xs text-[#7C5CFF] flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#7C5CFF] animate-pulse"></span>
+                  SYSTEM_ACTIVE
+                </div>
+              </div>
+            </div>
+
+            <div className="group relative border border-white/10 bg-[#121016]/50 backdrop-blur-sm p-10 overflow-hidden card-glow transition-colors hover:border-[#00F0FF]/50">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Box size={120} className="text-[#00F0FF] rotate-12" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-[#00F0FF]/10 flex items-center justify-center rounded mb-8 border border-[#00F0FF]/20 group-hover:border-[#00F0FF] transition-colors">
+                  <Box className="text-[#00F0FF]" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#00F0FF] transition-colors">自动化组件库</h3>
+                <p className="text-gray-500 font-light leading-relaxed mb-8">让设计系统与代码深度绑定，输入参数，自动生成具备复杂交互逻辑的商业级 H5 与网页结构。</p>
+                <div className="font-mono text-xs text-[#00F0FF] flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-pulse"></span>
+                  COMPONENTS_READY
+                </div>
+              </div>
+            </div>
+
+            <div className="group relative border border-white/10 bg-[#121016]/50 backdrop-blur-sm p-10 overflow-hidden card-glow transition-colors hover:border-[#FF5E7E]/50">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Wand2 size={120} className="text-[#FF5E7E] -rotate-12" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-[#FF5E7E]/10 flex items-center justify-center rounded mb-8 border border-[#FF5E7E]/20 group-hover:border-[#FF5E7E] transition-colors">
+                  <Wand2 className="text-[#FF5E7E]" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#FF5E7E] transition-colors">生成式视觉模型</h3>
+                <p className="text-gray-500 font-light leading-relaxed mb-8">训练专属扩散模型，结合精准条件控制技术，实现极具个人风格与品牌调性的视觉资产规模化生成。</p>
+                <div className="font-mono text-xs text-[#FF5E7E] flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#FF5E7E] animate-pulse"></span>
+                  MODELS_DEPLOYED
+                </div>
+              </div>
+            </div>
+
+            <div className="group relative border border-white/10 bg-[#121016]/50 backdrop-blur-sm p-10 overflow-hidden card-glow transition-colors hover:border-[#8BFFB7]/50">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Layers size={120} className="text-[#8BFFB7] rotate-12" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-[#8BFFB7]/10 flex items-center justify-center rounded mb-8 border border-[#8BFFB7]/20 group-hover:border-[#8BFFB7] transition-colors">
+                  <Layers className="text-[#8BFFB7]" size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#8BFFB7] transition-colors">沉浸式互动体验</h3>
+                <p className="text-gray-500 font-light leading-relaxed mb-8">结合 WebGL 与空间计算，打破传统网页的平面限制，打造可自由探索、具备实时交互的 3D 数字场域。</p>
+                <div className="font-mono text-xs text-[#8BFFB7] flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#8BFFB7] animate-pulse"></span>
+                  WEBGL_RENDERED
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4: Digital Fragments */}
+      <section id="fragments" className="py-32 px-6 md:px-20 border-t border-white/5 relative">
+        <div className="absolute inset-0 bg-[#8BFFB7]/5 opacity-20" style={{ backgroundImage: 'radial-gradient(#8BFFB7 0.5px, transparent 0.5px)', backgroundSize: '32px 32px' }}></div>
+        
+        <div className="relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-16 text-glitch-hover inline-block">
+            DIGITAL<br/><span className="text-[#8BFFB7]">FRAGMENTS.</span>
+          </h2>
+          
+          {/* Scattered masonry-like layout for fragments */}
+          <div className="flex flex-wrap gap-4 md:gap-6 lg:max-w-5xl">
+            {[
+              { text: '灵感草稿_01.sketch', icon: FileJson, color: '#FF5E7E', delay: '0s' },
+              { text: 'Failed_Experiment.log', icon: Terminal, color: '#7C5CFF', delay: '0.2s' },
+              { text: '手绘设定集.pdf', icon: FileText, color: '#8BFFB7', delay: '0.4s' },
+              { text: 'AI 生成过程纪实', icon: Sparkles, color: '#00F0FF', delay: '0.1s' },
+              { text: '无用代码.js', icon: FileCode2, color: 'gray', delay: '0.5s' },
+              { text: 'RGB分离测试', icon: ImageIcon, color: '#FF5E7E', delay: '0.3s' }
+            ].map((frag, i) => {
+              const Icon = frag.icon;
+              return (
+                <div 
+                  key={i} 
+                  className="group px-6 py-4 border border-white/10 bg-black/80 backdrop-blur text-gray-400 font-mono text-sm cursor-pointer transition-all duration-300 hover:border-[#8BFFB7] hover:-translate-y-2 hover:shadow-[0_5px_20px_rgba(139,255,183,0.15)] flex items-center gap-3"
+                  style={{ animation: `float 6s ease-in-out infinite`, animationDelay: frag.delay }}
+                >
+                  <Icon size={16} style={{ color: frag.color }} className="opacity-50 group-hover:opacity-100 transition-opacity" />
+                  <span className="group-hover:text-white transition-colors">{frag.text}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5: About */}
+      <section className="py-40 px-6 md:px-20 border-t border-white/5 bg-[#080808] flex justify-center text-center relative overflow-hidden">
+        {/* Animated scanning line */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-[#FF5E7E]/30 blur-[2px] animate-[slide_4s_linear_infinite]" style={{ animation: 'scan 4s linear infinite' }}></div>
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+          }
+        `}} />
+        
+        <div className="max-w-3xl z-10">
+          <Fingerprint className="mx-auto text-white/10 mb-8" size={64} />
+          <div className="text-2xl md:text-4xl font-light text-white tracking-wide flex flex-col space-y-1 mb-8">
+            <p>我相信未来的创作者，</p>
+            <p>既是设计师、开发者，更是<span className="text-[#FF5E7E] font-bold text-glitch-hover inline-block mx-2">导演</span>与</p>
+            <p><span className="text-[#00F0FF] font-bold text-glitch-hover inline-block mx-2">世界构建者</span>。</p>
+          </div>
+          <div className="text-2xl md:text-4xl font-light text-white tracking-wide">
+            <p className="text-gray-500 text-xl md:text-2xl pt-4">
+              AI 不只是工具，而是一种新的创作媒介。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 6: Contact Terminal */}
+      <section id="contact" className="py-32 px-6 md:px-20 border-t border-white/5 relative">
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-glitch-hover inline-block">
+          CONTACT<br/><span className="text-gray-600">TERMINAL.</span>
+        </h2>
+        
+        <div 
+          className="w-full bg-[#050505] border border-white/10 rounded shadow-2xl p-6 md:p-10 font-mono relative transition-all duration-300 ease-out"
+          style={{
+            transform: isHoveringTerminal 
+              ? `translate(${terminalOffset.x}px, ${terminalOffset.y}px)` 
+              : 'translate(0px, 0px)',
+            boxShadow: isHoveringTerminal
+              ? '0 20px 40px -10px rgba(0,240,255,0.15)'
+              : 'none',
+            borderColor: isHoveringTerminal
+              ? 'rgba(0, 240, 255, 0.3)'
+              : 'rgba(255, 255, 255, 0.1)'
+          }}
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            setTerminalOffset({ x: x * 0.05, y: y * 0.05 });
+          }}
+          onMouseEnter={() => setIsHoveringTerminal(true)}
+          onMouseLeave={() => {
+            setIsHoveringTerminal(false);
+            setTerminalOffset({ x: 0, y: 0 });
+          }}
+        >
+          <div className="flex gap-2 mb-6 border-b border-white/10 pb-4">
+            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+          </div>
+          <div className="text-[#00F0FF] whitespace-pre-line leading-relaxed min-h-[140px] text-sm md:text-base">
+            {terminalText}
+            <span className="inline-block w-2 h-5 bg-[#00F0FF] ml-1 align-middle animate-pulse"></span>
+          </div>
+          
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-4 md:gap-6">
+            {['WeChat', 'Email', 'Github', 'Twitter'].map((link) => (
+              <button key={link} className="text-gray-500 hover:text-[#8BFFB7] hover:bg-[#8BFFB7]/10 px-4 py-2 rounded transition-all flex items-center gap-2">
+                <span className="opacity-50">&gt;</span> {link}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 text-center border-t border-white/5 font-mono text-xs text-gray-600 bg-[#080808]">
+        <p className="flex items-center justify-center gap-2">
+          © 2024 YORIK CREATIVE LAB. <span className="w-2 h-2 rounded-full bg-[#8BFFB7] animate-pulse"></span> ALL SYSTEMS NOMINAL.
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+
+      		  createRoot(document.getElementById("root")).render(
+             <>
+      		    <YorikPortfolio />
+              </>
+      		    );
+              window.parent.postMessage({ action: "ready" }, "*");
+    </script>
+  </body>
+</html>
