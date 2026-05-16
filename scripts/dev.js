@@ -1,11 +1,11 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-// Suppress warnings
-process.env.NODE_NO_WARNINGS = '1';
-// Remove pnpm-specific env vars that npm doesn't recognize
-delete process.env.npm_config_recursive;
-delete process.env.npm_config_verify_deps_before_run;
+// Create clean environment without pnpm-specific npm env vars
+const cleanEnv = { ...process.env };
+delete cleanEnv.npm_config_recursive;
+delete cleanEnv.npm_config_verify_deps_before_run;
+cleanEnv.NODE_NO_WARNINGS = '1';
 
 const API_PORT = 5000;
 const WEB_PORT = 3000;
@@ -14,14 +14,16 @@ const WEB_PORT = 3000;
 const api = spawn('pnpm --filter api dev', {
   stdio: 'pipe',
   shell: true,
-  cwd: path.join(__dirname, '..')
+  cwd: path.join(__dirname, '..'),
+  env: cleanEnv
 });
 
 // Start Web
 const web = spawn('pnpm --filter web dev', {
   stdio: 'pipe',
   shell: true,
-  cwd: path.join(__dirname, '..')
+  cwd: path.join(__dirname, '..'),
+  env: cleanEnv
 });
 
 // Handle spawn errors
