@@ -8,7 +8,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-# Stop existing containers (this frees ports automatically)
+# Stop existing containers
 echo "Stopping existing containers..."
 docker-compose down 2>/dev/null
 
@@ -26,19 +26,19 @@ sleep 10
 echo ""
 echo "Checking services..."
 
-if curl -s http://localhost:5000 > /dev/null 2>&1; then
+if docker ps | grep -q "_api_" ; then
     echo -e "${GREEN}✓ API is running${NC}"
 else
     echo -e "${RED}✗ API failed to start${NC}"
 fi
 
-if curl -s http://localhost:3000 > /dev/null 2>&1; then
+if docker ps | grep -q "_web_" ; then
     echo -e "${GREEN}✓ Web is running${NC}"
 else
     echo -e "${RED}✗ Web failed to start${NC}"
 fi
 
-if curl -s http://localhost > /dev/null 2>&1; then
+if docker ps | grep -q "_nginx_" ; then
     echo -e "${GREEN}✓ Nginx is running${NC}"
 else
     echo -e "${RED}✗ Nginx failed to start${NC}"
@@ -47,4 +47,6 @@ fi
 echo ""
 echo -e "${GREEN}Deployment complete!${NC}"
 echo "  Web:     http://yorikhu.com"
-echo "  API:     http://api.yorikhu.com/api"
+echo "  (API is accessible internally via /api/*)"
+echo ""
+echo "Check logs with: docker-compose logs -f"
