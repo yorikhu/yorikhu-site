@@ -20,7 +20,9 @@ docker-compose -f "$SCRIPT_DIR/docker-compose.traefik.yml" up -d --build
 
 echo ""
 echo -e "${GREEN}Deployment complete!${NC}"
-echo "  Web:     http://yorikhu.com"
-echo "  API:     http://yorikhu.com/api (internally forwarded)"
+echo "  Domains:  yorikhu.com | www.yorikhu.com"
+echo "            yorikhu.top | www.yorikhu.top"
+echo "  Web:      http://yorikhu.com | http://yorikhu.top"
+echo "  API:      http://yorikhu.com/api | http://yorikhu.top/api"
 echo ""
 echo "Traefik Dashboard: http://localhost:8080 (localhost only)"
