@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "../../dist/api",
     "rootDir": "./src",
     "baseUrl": "./",
     "types": ["node"],

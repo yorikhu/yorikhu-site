@@ -4,11 +4,13 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "node scripts/dev.js",
+    "start": "node scripts/start.js",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "prettier": "^3.5.0",
     "turbo": "^2.9.14"
   },

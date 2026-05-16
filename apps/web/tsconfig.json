@@ -16,13 +16,21 @@
     "incremental": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "skipLibCheck": true
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    "../dist/web/types/**/*.ts",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "src/types.d.ts",
+    "../../dist/web/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
