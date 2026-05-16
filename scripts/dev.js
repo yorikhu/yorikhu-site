@@ -1,8 +1,11 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-// Suppress deprecation warnings from pnpm internals
+// Suppress warnings
 process.env.NODE_NO_WARNINGS = '1';
+// Remove pnpm-specific env vars that npm doesn't recognize
+delete process.env.npm_config_recursive;
+delete process.env.npm_config_verify_deps_before_run;
 
 const API_PORT = 5000;
 const WEB_PORT = 3000;
