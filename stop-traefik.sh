@@ -1,12 +1,12 @@
 #!/bin/bash
 # Stop Traefik services
 
-cd "$(dirname "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Stopping application..."
-docker-compose -f docker-compose.traefik.yml down
+docker-compose -f "$SCRIPT_DIR/docker-compose.traefik.yml" down
 
 echo "Stopping Traefik..."
-cd traefik && docker-compose down
+docker-compose -f "$SCRIPT_DIR/traefik/docker-compose.yml" down
 
 echo "All services stopped."

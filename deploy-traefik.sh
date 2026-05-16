@@ -1,7 +1,7 @@
 #!/bin/bash
 # Deploy script with Traefik
 
-cd "$(dirname "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Colors
 GREEN='\033[0;32m'
@@ -12,11 +12,11 @@ echo -e "${YELLOW}Setting up Traefik network...${NC}"
 docker network create traefik-net 2>/dev/null || echo "Network already exists"
 
 echo -e "${YELLOW}Starting Traefik...${NC}"
-cd traefik && docker-compose up -d && cd ..
+docker-compose -f "$SCRIPT_DIR/traefik/docker-compose.yml" up -d
 
 echo ""
 echo -e "${YELLOW}Starting application...${NC}"
-docker-compose -f docker-compose.traefik.yml up -d --build
+docker-compose -f "$SCRIPT_DIR/docker-compose.traefik.yml" up -d --build
 
 echo ""
 echo -e "${GREEN}Deployment complete!${NC}"
