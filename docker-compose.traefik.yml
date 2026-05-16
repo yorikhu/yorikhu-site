@@ -1,0 +1,51 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - NODE_ENV=production
+    networks:
+      - traefik-net
+    labels:
+      # 启用 Traefik
+      - "traefik.enable=true"
+      # HTTP 路由
+      - "traefik.http.routers.yorikhu-api.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.yorikhu-api.entrypoints=web"
+      # HTTPS 路由（可选，需要先配置好域名解析）
+      # - "traefik.http.routers.yorikhu-api-secure.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`) && PathPrefix(`/api`)"
+      # - "traefik.http.routers.yorikhu-api-secure.entrypoints=websecure"
+      # - "traefik.http.routers.yorikhu-api-secure.tls.certresolver=le"
+      # 服务配置
+      - "traefik.http.services.yorikhu-api.loadbalancer.server.port=5000"
+      # 中间件：移除 /api 前缀（因为 API 已经有 /api 路由）
+      - "traefik.http.middlewares.yorikhu-api-stripprefix.stripprefix.prefixes=/api"
+      - "traefik.http.routers.yorikhu-api.middlewares=yorikhu-api-stripprefix"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    environment:
+      - NODE_ENV=production
+    networks:
+      - traefik-net
+    labels:
+      # 启用 Traefik
+      - "traefik.enable=true"
+      # HTTP 路由
+      - "traefik.http.routers.yorikhu-web.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`)"
+      - "traefik.http.routers.yorikhu-web.entrypoints=web"
+      # HTTPS 路由（可选）
+      # - "traefik.http.routers.yorikhu-web-secure.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`)"
+      # - "traefik.http.routers.yorikhu-web-secure.entrypoints=websecure"
+      # - "traefik.http.routers.yorikhu-web-secure.tls.certresolver=le"
+      # 服务配置
+      - "traefik.http.services.yorikhu-web.loadbalancer.server.port=3000"
+    restart: unless-stopped
+
+networks:
+  traefik-net:
+    external: true

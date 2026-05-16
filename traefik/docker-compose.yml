@@ -1,0 +1,32 @@
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"     # HTTP
+      - "443:443"   # HTTPS
+      - "8080:8080" # Dashboard (可选，生产环境建议关闭或加密码保护)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme.json:/acme.json
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=false"  # Dashboard 只通过 localhost 访问
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"  # 默认不暴露容器，需要显式启用
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      # Let's Encrypt SSL 配置
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--certificatesresolvers.le.acme.email=your-email@example.com"
+      - "--certificatesresolvers.le.acme.storage=/acme.json"
+      # 日志
+      - "--log.level=INFO"
+      - "--accesslog=true"
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
