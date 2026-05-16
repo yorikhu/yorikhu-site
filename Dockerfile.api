@@ -6,7 +6,8 @@ WORKDIR /app
 # Install pnpm
 RUN npm install -g pnpm
 
-# Copy source files
+# Copy entire project structure (needed for tsconfig references)
+COPY packages ./packages
 COPY apps/api ./apps/api
 COPY package.json pnpm-lock.yaml ./
 
