@@ -65,7 +65,8 @@ web.stderr.on('data', (data) => {
 function checkAndPrint() {
   if (apiReady && webReady) {
     setTimeout(() => {
-      console.clear();
+      // ANSI escape codes to clear screen and move cursor to top-left
+      process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
       console.log('');
       console.log('  ────────────────────────────────────────');
       console.log('');
