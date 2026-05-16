@@ -10,7 +10,7 @@ RUN npm install -g pnpm
 COPY apps/web ./apps/web
 COPY package.json pnpm-lock.yaml ./
 
-# Build Web
+# Build Web (dist will be in /app/dist/web)
 WORKDIR /app/apps/web
 RUN pnpm install
 RUN pnpm build
@@ -30,8 +30,8 @@ COPY package.json pnpm-lock.yaml ./
 # Install production dependencies only
 RUN pnpm install --prod --frozen-lockfile
 
-# Copy built files from builder
-COPY --from=builder /app/apps/web/dist ./dist/
+# Copy built files from builder (dist is at /app/dist/web)
+COPY --from=builder /app/dist/web ./dist/
 
 EXPOSE 3000
 
