@@ -1,10 +1,21 @@
 services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - web
+    restart: unless-stopped
+
   api:
     build:
       context: .
       dockerfile: Dockerfile.api
-    ports:
-      - "5000:5000"
+    # 不暴露端口，只通过内部网络访问
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -13,8 +24,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
-    ports:
-      - "3000:3000"
+    # 不暴露端口，只通过内部网络访问
     environment:
       - NODE_ENV=production
     restart: unless-stopped
