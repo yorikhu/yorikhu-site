@@ -113,7 +113,10 @@ export function HeroSection() {
 
       {/* Scroll Indicator */}
       <div className="w-full flex justify-center mt-[clamp(2rem,6vmin,10rem)] z-20">
-        <div className="animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+        <div
+          className="animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+          onClick={() => document.getElementById('works')?.scrollIntoView({ behavior: 'smooth' })}
+        >
           <ArrowDown className="text-white/60 hover:text-white w-[clamp(2rem,4vmin,5rem)] h-[clamp(2rem,4vmin,5rem)]" />
         </div>
       </div>
