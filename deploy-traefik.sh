@@ -8,6 +8,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+# Enable BuildKit for better caching and --mount support
+export DOCKER_BUILDKIT=1
+
 echo -e "${YELLOW}Setting up Traefik network...${NC}"
 docker network create traefik-net 2>/dev/null || echo "Network already exists"
 
