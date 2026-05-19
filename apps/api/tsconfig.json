@@ -14,7 +14,7 @@
     "rootDir": "./src",
     "baseUrl": "./",
     "types": ["node"],
-    "incremental": true,
+    "incremental": false,
     "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,

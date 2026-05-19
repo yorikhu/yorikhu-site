@@ -76,7 +76,7 @@ function checkAndPrint() {
       console.log('');
       console.log('    ➜  Web:     http://localhost:3000');
       console.log('    ➜  API:     http://localhost:5000');
-      console.log('    ➜  Swagger: http://localhost:5000/api');
+      console.log('    ➜  Swagger: http://localhost:5000/docs');
       console.log('');
       console.log('  ────────────────────────────────────────');
       console.log('');
