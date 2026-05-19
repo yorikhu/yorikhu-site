@@ -10,8 +10,8 @@ COPY package.json pnpm-lock.yaml .npmrc ./
 COPY packages packages/
 COPY apps/api apps/api/
 
-# 一键安装所有依赖
-RUN pnpm install --frozen-lockfile
+# 使用 shamefully-hoist 安装
+RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # 构建子项目
 RUN pnpm --filter api build
