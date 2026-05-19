@@ -16,7 +16,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm --filter api build
 
 # pnpm deploy 创建自包含的生产目录
-RUN pnpm deploy --filter=api --prod /prod/api
+RUN pnpm deploy --filter=api --prod --legacy /prod/api
 
 FROM base AS prod
 COPY --from=build /prod/api /prod/api
