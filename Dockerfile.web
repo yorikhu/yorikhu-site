@@ -13,8 +13,8 @@ COPY apps/web apps/web/
 # 一键安装所有依赖
 RUN pnpm install --frozen-lockfile
 
-# 使用 pnpm exec 运行构建（正确处理符号链接）
-RUN pnpm exec --filter web next build
+# 构建子项目
+RUN pnpm --filter web build
 
 WORKDIR /app/apps/web
 
