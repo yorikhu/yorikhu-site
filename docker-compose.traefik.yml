@@ -35,9 +35,15 @@ services:
     labels:
       # 启用 Traefik
       - "traefik.enable=true"
-      # HTTP 路由
+      # HTTP 路由 - 特定域名（高优先级）
       - "traefik.http.routers.yorikhu-web.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`)"
       - "traefik.http.routers.yorikhu-web.entrypoints=web"
+      - "traefik.http.routers.yorikhu-web.priority=100"
+      # 兜底路由 - 匹配所有请求（低优先级）
+      - "traefik.http.routers.yorikhu-web-default.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.yorikhu-web-default.entrypoints=web"
+      - "traefik.http.routers.yorikhu-web-default.priority=1"
+      - "traefik.http.routers.yorikhu-web-default.service=yorikhu-web"
       # HTTPS 路由（可选）
       # - "traefik.http.routers.yorikhu-web-secure.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`)"
       # - "traefik.http.routers.yorikhu-web-secure.entrypoints=websecure"
