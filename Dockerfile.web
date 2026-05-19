@@ -22,7 +22,7 @@ COPY packages packages/
 COPY apps/web apps/web/
 
 # 4. 构建
-RUN pnpm exec -F web next build
+RUN pnpm --filter web exec next build
 
 # pnpm deploy 创建自包含的生产目录（只包含 node_modules）
 RUN pnpm deploy --filter=web --prod --legacy /prod/web
