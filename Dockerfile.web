@@ -32,7 +32,6 @@ FROM base AS prod
 COPY --from=build /prod/web /prod/web
 # 复制构建产物
 COPY --from=build /app/apps/web/.next /prod/web/.next
-COPY --from=build /app/apps/web/public /prod/web/public
 WORKDIR /prod/web
 
 EXPOSE 3000
