@@ -15,7 +15,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # 2. 安装依赖（只有依赖变化时才重新运行）
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # 3. 再复制源代码（代码变化不影响依赖安装层）
 COPY packages packages/
