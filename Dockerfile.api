@@ -5,10 +5,8 @@ RUN npm install -g pnpm@9
 
 WORKDIR /app
 
-# 优先复制依赖文件（利用 Docker 缓存）
-COPY package.json pnpm-lock.yaml ./
-COPY packages ./packages
-COPY apps/api ./apps/api
+# 复制整个项目（monorepo 需要）
+COPY . .
 
 WORKDIR /app/apps/api
 
