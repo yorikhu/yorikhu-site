@@ -16,14 +16,16 @@ WORKDIR /app/apps/web
 RUN pnpm install
 RUN pnpm build
 
+# Prepare production bundle - combine standalone + static assets
+RUN cp -r /app/dist/web/.next/static /app/dist/web/standalone/.next/ 2>/dev/null || true
+
 # Production image
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy standalone server and dependencies from dist output
+# Copy the prepared standalone bundle (already contains static assets)
 COPY --from=builder /app/dist/web/standalone ./
-COPY --from=builder /app/dist/web/.next/static ./.next/static/
 
 EXPOSE 3000
 
