@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { ArrowDown, ArrowRight, Sprout } from "lucide-react";
+import Link from "next/link";
 
-const ENTITY_IMAGE_URL = "https://orchid-cdn-1313178222.cos.ap-shanghai.myqcloud.com/eldra_coding.gif?q-sign-algorithm=sha1&q-ak=AKIDQD3dmWAltlpepvF_8IKoeTKSWgxJTgvkLWD0FeFT_d8H4kEl--Pj2d4a3qvltXNt&q-sign-time=1779196556;1779200156&q-key-time=1779196556;1779200156&q-header-list=host&q-url-param-list=&q-signature=e1b0674940d11cc60df6f9cbe6eb0293063f8a46&x-cos-security-token=JChCFlJsIUs0bynuAja3wqrVLR5rlpaa4237ef59e0622bb26657d22ac87124bdpXVjzcOlvYxibS0Y22gBcgh2Ggo7aaqLxE2GxvDit_v9nsqz5vYolTSXRWAZNn_8E_UtNHarxMEi_tuh2VJ7ZQ1WovpIvZF0WXJALKaiv0NFeY4giHuW8aFbJMdyjfzYqiAcHlHemYIS3aSFAISJQ3yXtVmbGBNbYq1__TOLMKYFX4JFprq3Ingx5UKxaWM_SSV_rBaEa-TPXAbdIpE7FxSkCDduznoXFwhNckKOLWwl8rPod9qxjrNSxY_ITR3i9vDtdo7zRiBVOyqZ4vDeFw";
+const ENTITY_IMAGE_URL = "https://orchid-cdn-1313178222.cos.ap-shanghai.myqcloud.com/personal/eldra_coding.gif?q-sign-algorithm=sha1&q-ak=AKIDY4vZM9pop-fV43_2Sodd9wldBPxjT45Bq29oN-b5lHaTxA-xvdKyIT4_yAJ_Olmr&q-sign-time=1779198223;1779201823&q-key-time=1779198223;1779201823&q-header-list=host&q-url-param-list=&q-signature=0cb232be8ab7582eebcca79089eb4cc19db42b59&x-cos-security-token=JChCFlJsIUs0bynuAja3wqrVLR5rlpaa136ed54f6d56fe079261d8c421aae10bpXVjzcOlvYxibS0Y22gBcgiMlm5pS5Ys3XDl1xomkFJabpn5cARsfgCAsYpYsWih2DbD9HD8qobMI_VWbUOOD5RNnFmTUr3xEVlkMAgpZZWoe9LfdvNZLjskUNluQcyobjkn__XmzP_ehT9yvLsHiOvk66g88VkL9bJ-PbIqfaeHIvWJbv9tNc7T_Y_bPd55TDNWqGm_u4_FUruke4_ruDDLTGq2KeRkQhPEgCLHrwyYKkhXT7G_MYa5Cd2XNSpuGVuwEdsZQvSanruBxNyiEw";
 
 export function HeroSection() {
   const [isHoveringName, setIsHoveringName] = useState(false);
@@ -66,9 +67,9 @@ export function HeroSection() {
             这不是一个普通的主页，这是我的数字世界。
           </p>
           <div className="pt-[clamp(1rem,3vmin,4rem)]">
-            <button className="group flex items-center gap-3 bg-white text-black px-[clamp(2rem,4vmin,5rem)] py-[clamp(1rem,2vmin,2.5rem)] font-bold text-[clamp(1rem,1.8vmin,2rem)] hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+            <Link href="/maintenance" className="group flex items-center gap-3 bg-white text-black px-[clamp(2rem,4vmin,5rem)] py-[clamp(1rem,2vmin,2.5rem)] font-bold text-[clamp(1rem,1.8vmin,2rem)] hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
               EXPLORE UNIVERSE <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform w-[clamp(1.125rem,2vmin,2.5rem)] h-[clamp(1.125rem,2vmin,2.5rem)]" />
-            </button>
+            </Link>
           </div>
         </div>
 
