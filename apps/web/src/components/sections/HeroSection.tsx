@@ -67,8 +67,8 @@ export function HeroSection() {
             这不是一个普通的主页，这是我的数字世界。
           </p>
           <div className="pt-[clamp(1rem,3vmin,4rem)]">
-            <Link href="/maintenance" className="group flex items-center gap-3 bg-white text-black px-[clamp(2rem,4vmin,5rem)] py-[clamp(1rem,2vmin,2.5rem)] font-bold text-[clamp(1rem,1.8vmin,2rem)] hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
-              EXPLORE UNIVERSE <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform w-[clamp(1.125rem,2vmin,2.5rem)] h-[clamp(1.125rem,2vmin,2.5rem)]" />
+            <Link href="/maintenance" className="group inline-flex items-center gap-3 bg-white text-black px-[clamp(1.5rem,3vmin,4rem)] py-[clamp(1rem,2vmin,2.5rem)] font-bold text-[clamp(1rem,1.8vmin,2rem)] hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+              EXPLORE UNIVERSE <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
             </Link>
           </div>
         </div>
