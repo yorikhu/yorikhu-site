@@ -13,10 +13,14 @@ COPY apps/api apps/api/
 # 安装所有依赖
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
-# 构建子项目（使用 npx 绕过符号链接问题）
-RUN npx --yes @nestjs/cli@10 build --config apps/api/nest-cli.json
+# 调试：查看 node_modules 结构
+RUN echo "=== Root node_modules ===" && ls -la /app/node_modules/ | head -10
+RUN echo "=== API node_modules ===" && ls -la /app/apps/api/node_modules/ | head -10
+RUN echo "=== Find nest ===" && find /app/apps/api/node_modules -name "nest" -o -name "@nestjs" | head -10
 
+# 构建
 WORKDIR /app/apps/api
+RUN pnpm build
 
 # 清理开发依赖
 RUN pnpm prune --prod

@@ -13,10 +13,14 @@ COPY apps/web apps/web/
 # 安装所有依赖
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
-# 构建子项目（使用 npx 绕过符号链接问题）
-RUN npx --yes next build --config apps/web/next.config.ts
+# 调试：查看 node_modules 结构
+RUN echo "=== Root node_modules ===" && ls -la /app/node_modules/ | head -10
+RUN echo "=== Web node_modules ===" && ls -la /app/apps/web/node_modules/ | head -10
+RUN echo "=== Find next ===" && find /app/apps/web/node_modules -name "next" | head -10
 
+# 构建
 WORKDIR /app/apps/web
+RUN pnpm build
 
 # 清理开发依赖
 RUN pnpm prune --prod
