@@ -10,9 +10,10 @@ services:
     labels:
       # 启用 Traefik
       - "traefik.enable=true"
-      # HTTP 路由
-      - "traefik.http.routers.yorikhu-api.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`) && PathPrefix(`/api`)"
+      # HTTP 路由 - 匹配域名和 IP
+      - "traefik.http.routers.yorikhu-api.rule=(Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`) || HostRegexp(`{host:\\d+\\.\\d+\\.\\d+\\.\\d+}`)) && PathPrefix(`/api`)"
       - "traefik.http.routers.yorikhu-api.entrypoints=web"
+      - "traefik.http.routers.yorikhu-api.priority=200"
       # HTTPS 路由（可选，需要先配置好域名解析）
       # - "traefik.http.routers.yorikhu-api-secure.rule=Host(`yorikhu.com`,`www.yorikhu.com`,`yorikhu.top`,`www.yorikhu.top`) && PathPrefix(`/api`)"
       # - "traefik.http.routers.yorikhu-api-secure.entrypoints=websecure"
