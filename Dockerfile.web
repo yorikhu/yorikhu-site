@@ -3,7 +3,10 @@ FROM node:20-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+
+# corepack 会读取 package.json 中的 packageManager 字段
 RUN corepack enable
+RUN corepack prepare pnpm@10.4.0 --activate
 
 FROM base AS build
 WORKDIR /app
