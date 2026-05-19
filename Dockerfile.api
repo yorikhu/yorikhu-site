@@ -22,7 +22,7 @@ COPY packages packages/
 COPY apps/api apps/api/
 
 # 4. 构建
-RUN cd apps/api && pnpm run build
+RUN PATH="/app/node_modules/.bin:$PATH" cd apps/api && pnpm run build
 
 # pnpm deploy 创建自包含的生产目录（只包含 node_modules）
 RUN pnpm deploy --filter=api --prod --legacy /prod/api
