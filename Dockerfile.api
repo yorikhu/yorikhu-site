@@ -1,45 +1,26 @@
-# API Dockerfile - Build on Linux
-FROM node:20-alpine AS builder
+# API Dockerfile - pnpm official monorepo approach
+FROM node:20-alpine AS base
 
-RUN npm install -g pnpm@9
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
+FROM base AS build
 WORKDIR /app
 
-# 复制整个 monorepo
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages packages/
 COPY apps/api apps/api/
 
-# 根目录安装（workspace 依赖）
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm --filter api build
 
-# 子目录再安装一次（确保 CLI 工具在本地）
-WORKDIR /app/apps/api
-RUN pnpm install --frozen-lockfile --shamefully-hoist
+# pnpm deploy 创建自包含的生产目录
+RUN pnpm deploy --filter=api --prod /prod/api
 
-# 调试
-RUN ls node_modules/ | grep nest
-
-# 构建
-RUN pnpm build
-
-# 清理开发依赖
-RUN pnpm prune --prod
-RUN rm -rf node_modules/.cache
-
-# ========== Production ==========
-FROM node:20-alpine
-
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-WORKDIR /app
-
-COPY --from=builder --chown=nodejs:nodejs /app/apps/api/node_modules ./node_modules/
-COPY --from=builder --chown=nodejs:nodejs /app/apps/api/dist ./dist/
-COPY --from=builder --chown=nodejs:nodejs /app/apps/api/package.json ./
-
-USER nodejs
+FROM base AS prod
+COPY --from=build /prod/api /prod/api
+WORKDIR /prod/api
 
 EXPOSE 5000
 

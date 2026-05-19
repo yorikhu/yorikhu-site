@@ -1,50 +1,29 @@
-# Web Dockerfile - Build on Linux
-FROM node:20-alpine AS builder
+# Web Dockerfile - pnpm official monorepo approach
+FROM node:20-alpine AS base
 
-RUN npm install -g pnpm@9
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
+FROM base AS build
 WORKDIR /app
 
-# 复制整个 monorepo
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages packages/
 COPY apps/web apps/web/
 
-# 根目录安装（workspace 依赖）
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm --filter web build
 
-# 子目录再安装一次（确保 CLI 工具在本地）
-WORKDIR /app/apps/web
-RUN pnpm install --frozen-lockfile --shamefully-hoist
+# pnpm deploy 创建自包含的生产目录
+RUN pnpm deploy --filter=web --prod /prod/web
 
-# 调试
-RUN ls node_modules/ | grep next
-
-# 构建
-RUN pnpm build
-
-# 清理开发依赖
-RUN pnpm prune --prod
-RUN rm -rf node_modules/.cache
-RUN mkdir -p public
-
-# ========== Production ==========
-FROM node:20-alpine
-
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-WORKDIR /app
-
-COPY --from=builder --chown=nodejs:nodejs /app/apps/web/node_modules ./node_modules/
-COPY --from=builder --chown=nodejs:nodejs /app/apps/web/.next ./.next/
-COPY --from=builder --chown=nodejs:nodejs /app/apps/web/public ./public/
-COPY --from=builder --chown=nodejs:nodejs /app/apps/web/package.json ./
-
-USER nodejs
+FROM base AS prod
+COPY --from=build /prod/web /prod/web
+WORKDIR /prod/web
 
 EXPOSE 3000
 
 ENV NODE_ENV=production
 
-CMD ["npx", "next", "start"]
+CMD ["pnpm", "start"]
