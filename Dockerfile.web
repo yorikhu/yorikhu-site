@@ -5,22 +5,17 @@ RUN npm install -g pnpm@9
 
 WORKDIR /app
 
-# 复制整个项目（monorepo 需要）
-COPY . .
+# 层缓存优化：只复制依赖文件
+COPY package.json pnpm-lock.yaml ./
+COPY packages packages/
+COPY apps/web apps/web/
 
 WORKDIR /app/apps/web
 
-# 安装所有依赖（构建需要）
 RUN pnpm install --frozen-lockfile
-
-# 构建
 RUN pnpm build
-
-# 删除开发依赖
 RUN pnpm prune --prod
 RUN rm -rf node_modules/.cache
-
-# 确保 public 目录存在
 RUN mkdir -p public
 
 # ========== Production ==========
@@ -31,7 +26,6 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-# 复制生产依赖、构建产物和静态资源
 COPY --from=builder --chown=nodejs:nodejs /app/apps/web/node_modules ./node_modules/
 COPY --from=builder --chown=nodejs:nodejs /app/apps/web/.next ./.next/
 COPY --from=builder --chown=nodejs:nodejs /app/apps/web/public ./public/
