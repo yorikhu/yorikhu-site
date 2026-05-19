@@ -11,7 +11,7 @@ COPY packages ./packages
 COPY apps/web ./apps/web
 COPY package.json pnpm-lock.yaml ./
 
-# Build Web (dist will be in /app/dist/web)
+# Build Web
 WORKDIR /app/apps/web
 RUN pnpm install
 RUN pnpm build
@@ -21,21 +21,13 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
-# Copy package files
-COPY apps/web/package.json ./
-COPY package.json pnpm-lock.yaml ./
-
-# Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
-
-# Copy built files from builder (dist is at /app/dist/web)
-COPY --from=builder /app/dist/web ./dist/
+# Copy standalone server and dependencies from dist output
+COPY --from=builder /app/dist/web/standalone ./
+COPY --from=builder /app/dist/web/.next/static ./.next/static/
 
 EXPOSE 3000
 
 ENV NODE_ENV=production
+ENV PORT=3000
 
-CMD ["npx", "next", "start"]
+CMD ["node", "server.js"]
