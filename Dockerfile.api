@@ -10,12 +10,15 @@ COPY package.json pnpm-lock.yaml ./
 COPY packages packages/
 COPY apps/api apps/api/
 
-# 在根目录安装（monorepo 需要）
+# 安装所有依赖
 RUN pnpm install --frozen-lockfile
 
 WORKDIR /app/apps/api
 
+# 构建
 RUN pnpm build
+
+# 清理开发依赖
 RUN pnpm prune --prod
 RUN rm -rf node_modules/.cache
 
@@ -27,6 +30,7 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
+# 复制生产依赖和构建产物
 COPY --from=builder --chown=nodejs:nodejs /app/apps/api/node_modules ./node_modules/
 COPY --from=builder --chown=nodejs:nodejs /app/apps/api/dist ./dist/
 COPY --from=builder --chown=nodejs:nodejs /app/apps/api/package.json ./
