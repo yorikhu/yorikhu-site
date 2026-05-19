@@ -13,10 +13,10 @@ COPY apps/web apps/web/
 # 安装所有依赖
 RUN pnpm install --frozen-lockfile
 
-WORKDIR /app/apps/web
+# 从根目录构建子项目
+RUN pnpm --filter web build
 
-# 构建
-RUN pnpm build
+WORKDIR /app/apps/web
 
 # 清理开发依赖
 RUN pnpm prune --prod

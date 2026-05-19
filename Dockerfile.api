@@ -13,10 +13,10 @@ COPY apps/api apps/api/
 # 安装所有依赖
 RUN pnpm install --frozen-lockfile
 
-WORKDIR /app/apps/api
+# 从根目录构建子项目
+RUN pnpm --filter api build
 
-# 构建
-RUN pnpm build
+WORKDIR /app/apps/api
 
 # 清理开发依赖
 RUN pnpm prune --prod
