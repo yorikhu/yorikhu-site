@@ -10,13 +10,11 @@ COPY package.json pnpm-lock.yaml .npmrc ./
 COPY packages packages/
 COPY apps/api apps/api/
 
-# 安装所有依赖
-RUN pnpm install --frozen-lockfile --shamefully-hoist
+# 安装：强制提升所有包到子目录
+RUN pnpm install --frozen-lockfile --shamefully-hoist --public-hoist-pattern='*'
 
-# 调试：查看 node_modules 结构
-RUN echo "=== Root node_modules ===" && ls -la /app/node_modules/ | head -10
-RUN echo "=== API node_modules ===" && ls -la /app/apps/api/node_modules/ | head -10
-RUN echo "=== Find nest ===" && find /app/apps/api/node_modules -name "nest" -o -name "@nestjs" | head -10
+# 调试
+RUN echo "=== API node_modules ===" && ls /app/apps/api/node_modules/ | grep -E "@nestjs|nest" | head -5
 
 # 构建
 WORKDIR /app/apps/api
