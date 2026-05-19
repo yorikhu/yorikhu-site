@@ -21,18 +21,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
-# Copy package files
-COPY apps/api/package.json ./
-COPY package.json pnpm-lock.yaml ./
-
-# Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
-
 # Copy built files
 COPY --from=builder /app/apps/api/dist ./dist/
+
+# Copy production dependencies from builder
+COPY --from=builder /app/apps/api/node_modules ./node_modules/
+COPY --from=builder /app/node_modules ./node_modules/
 
 EXPOSE 5000
 
