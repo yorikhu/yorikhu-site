@@ -17,7 +17,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   // 注册日志中间件
-  app.use(LoggingMiddleware);
+  app.use(new LoggingMiddleware());
 
   await app.listen(process.env.PORT ?? 5000);
 
