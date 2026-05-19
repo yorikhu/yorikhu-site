@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ArrowDown, ArrowRight, Sprout } from "lucide-react";
 import Link from "next/link";
 
-const ENTITY_IMAGE_URL = "https://orchid-cdn-1313178222.cos.ap-shanghai.myqcloud.com/personal/eldra_coding.gif?q-sign-algorithm=sha1&q-ak=AKIDY4vZM9pop-fV43_2Sodd9wldBPxjT45Bq29oN-b5lHaTxA-xvdKyIT4_yAJ_Olmr&q-sign-time=1779198223;1779201823&q-key-time=1779198223;1779201823&q-header-list=host&q-url-param-list=&q-signature=0cb232be8ab7582eebcca79089eb4cc19db42b59&x-cos-security-token=JChCFlJsIUs0bynuAja3wqrVLR5rlpaa136ed54f6d56fe079261d8c421aae10bpXVjzcOlvYxibS0Y22gBcgiMlm5pS5Ys3XDl1xomkFJabpn5cARsfgCAsYpYsWih2DbD9HD8qobMI_VWbUOOD5RNnFmTUr3xEVlkMAgpZZWoe9LfdvNZLjskUNluQcyobjkn__XmzP_ehT9yvLsHiOvk66g88VkL9bJ-PbIqfaeHIvWJbv9tNc7T_Y_bPd55TDNWqGm_u4_FUruke4_ruDDLTGq2KeRkQhPEgCLHrwyYKkhXT7G_MYa5Cd2XNSpuGVuwEdsZQvSanruBxNyiEw";
+const ENTITY_IMAGE_URL = "/images/eldra_coding.gif";
 
 export function HeroSection() {
   const [isHoveringName, setIsHoveringName] = useState(false);
