@@ -5,16 +5,16 @@ RUN npm install -g pnpm@9
 
 WORKDIR /app
 
-# 复制项目文件
+# 复制整个 monorepo
 COPY package.json pnpm-lock.yaml ./
 COPY packages packages/
 COPY apps/web apps/web/
 
-# 安装所有依赖
+# 一键安装所有依赖
 RUN pnpm install --frozen-lockfile
 
-# 从根目录构建子项目
-RUN pnpm --filter web build
+# 使用 pnpm exec 运行构建（正确处理符号链接）
+RUN pnpm exec --filter web next build
 
 WORKDIR /app/apps/web
 
@@ -31,7 +31,6 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-# 复制生产依赖、构建产物和静态资源
 COPY --from=builder --chown=nodejs:nodejs /app/apps/web/node_modules ./node_modules/
 COPY --from=builder --chown=nodejs:nodejs /app/apps/web/.next ./.next/
 COPY --from=builder --chown=nodejs:nodejs /app/apps/web/public ./public/
