@@ -5,14 +5,16 @@ RUN npm install -g pnpm@9
 
 WORKDIR /app
 
-# 层缓存优化：只复制依赖文件
+# 复制项目文件
 COPY package.json pnpm-lock.yaml ./
 COPY packages packages/
 COPY apps/api apps/api/
 
+# 在根目录安装（monorepo 需要）
+RUN pnpm install --frozen-lockfile
+
 WORKDIR /app/apps/api
 
-RUN pnpm install --frozen-lockfile
 RUN pnpm build
 RUN pnpm prune --prod
 RUN rm -rf node_modules/.cache
