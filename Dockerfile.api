@@ -11,7 +11,7 @@ COPY packages ./packages
 COPY apps/api ./apps/api
 COPY package.json pnpm-lock.yaml ./
 
-# Build API (dist will be in /app/dist/api)
+# Build API
 WORKDIR /app/apps/api
 RUN pnpm install
 RUN pnpm build
@@ -31,8 +31,8 @@ COPY package.json pnpm-lock.yaml ./
 # Install production dependencies only
 RUN pnpm install --prod --frozen-lockfile
 
-# Copy built files from builder (dist is at /app/dist/api)
-COPY --from=builder /app/dist/api ./dist/
+# Copy built files
+COPY --from=builder /app/apps/api/dist ./dist/
 
 EXPOSE 5000
 
