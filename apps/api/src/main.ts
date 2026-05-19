@@ -12,10 +12,10 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 5000);
 
-  console.log('Nest application successfully started');
+  console.log(`🚀 API running on port ${process.env.PORT ?? 5000}`);
 }
 bootstrap();
