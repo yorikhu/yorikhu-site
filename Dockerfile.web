@@ -24,8 +24,8 @@ COPY apps/web apps/web/
 # 4. 构建
 RUN cd apps/web && pnpm install --frozen-lockfile && pnpm run build
 
-# pnpm deploy 创建自包含的生产目录（只包含 node_modules）
-RUN pnpm deploy --filter=web --prod --legacy /prod/web
+# pnpm deploy 创建自包含的生产目录（包含所有依赖）
+RUN pnpm deploy --filter=web --legacy /prod/web
 
 FROM base AS prod
 # 复制生产依赖
