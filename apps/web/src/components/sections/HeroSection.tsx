@@ -1,10 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowDown, ArrowRight, Sprout } from "lucide-react";
+
+const ENTITY_IMAGE_URL = "https://orchid-cdn-1313178222.cos.ap-shanghai.myqcloud.com/eldra_coding.gif?q-sign-algorithm=sha1&q-ak=AKIDQD3dmWAltlpepvF_8IKoeTKSWgxJTgvkLWD0FeFT_d8H4kEl--Pj2d4a3qvltXNt&q-sign-time=1779196556;1779200156&q-key-time=1779196556;1779200156&q-header-list=host&q-url-param-list=&q-signature=e1b0674940d11cc60df6f9cbe6eb0293063f8a46&x-cos-security-token=JChCFlJsIUs0bynuAja3wqrVLR5rlpaa4237ef59e0622bb26657d22ac87124bdpXVjzcOlvYxibS0Y22gBcgh2Ggo7aaqLxE2GxvDit_v9nsqz5vYolTSXRWAZNn_8E_UtNHarxMEi_tuh2VJ7ZQ1WovpIvZF0WXJALKaiv0NFeY4giHuW8aFbJMdyjfzYqiAcHlHemYIS3aSFAISJQ3yXtVmbGBNbYq1__TOLMKYFX4JFprq3Ingx5UKxaWM_SSV_rBaEa-TPXAbdIpE7FxSkCDduznoXFwhNckKOLWwl8rPod9qxjrNSxY_ITR3i9vDtdo7zRiBVOyqZ4vDeFw";
 
 export function HeroSection() {
   const [isHoveringName, setIsHoveringName] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // Preload image on mount
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      console.log("Entity image loaded successfully");
+      setImageLoaded(true);
+    };
+    img.onerror = () => {
+      console.error("Failed to load entity image");
+      setImageError(true);
+    };
+    img.src = ENTITY_IMAGE_URL;
+  }, []);
 
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 md:px-20 pt-20 relative">
@@ -56,12 +74,22 @@ export function HeroSection() {
 
         {/* Right side - Visual placeholder */}
         <div className="w-full md:w-auto mt-8 md:mt-0 flex justify-center relative">
-          <div className="w-[clamp(16rem,30vmin,45rem)] h-[clamp(20rem,45vmin,65rem)] border border-white/10 relative group glitch-hover flex items-center justify-center bg-[#0D0D0D] overflow-hidden">
+          <div className="w-[clamp(20rem,35vmin,50rem)] h-[clamp(20rem,35vmin,50rem)] border border-white/10 relative group glitch-hover flex items-center justify-center bg-[#0D0D0D] overflow-hidden">
             {/* Grid background pattern */}
             <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#8BFFB7 1px, transparent 1px)', backgroundSize: 'clamp(20px, 3vmin, 32px) clamp(20px, 3vmin, 32px)' }}></div>
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#7C5CFF] to-transparent opacity-50"></div>
 
-            <div className="text-center z-10 animate-float">
+            {/* Entity Image - shown when loaded */}
+            {!imageError && (
+              <img
+                src={ENTITY_IMAGE_URL}
+                alt="Yorik Entity 01"
+                className={`absolute inset-0 w-full h-full object-contain z-20 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              />
+            )}
+
+            {/* Placeholder content - shown until image loads */}
+            <div className={`text-center z-10 animate-float transition-opacity duration-300 ${imageLoaded ? 'opacity-0' : 'opacity-100'}`}>
               <Sprout className="text-[#8BFFB7] mx-auto mb-[clamp(1rem,3vmin,2rem)] drop-shadow-[0_0_15px_rgba(139,255,183,0.6)] w-[clamp(4rem,10vmin,12rem)] h-[clamp(4rem,10vmin,12rem)]" />
               <p className="font-mono text-[clamp(0.875rem,1.8vmin,2rem)] text-[#00F0FF]">YORIK_ENTITY_01</p>
               <p className="text-[clamp(0.75rem,1.5vmin,1.5rem)] text-gray-600 mt-2 font-mono blink">Awaiting Instructions...</p>
@@ -70,6 +98,15 @@ export function HeroSection() {
             {/* Corner decorations */}
             <div className="absolute top-4 left-4 w-[clamp(0.5rem,1.5vmin,1.5rem)] h-[clamp(0.5rem,1.5vmin,1.5rem)] border-t border-l border-[#7C5CFF]"></div>
             <div className="absolute bottom-4 right-4 w-[clamp(0.5rem,1.5vmin,1.5rem)] h-[clamp(0.5rem,1.5vmin,1.5rem)] border-b border-r border-[#7C5CFF]"></div>
+
+            {/* Private Assistant Label - shown after image loads */}
+            {imageLoaded && (
+              <div className="absolute top-4 right-4 z-30">
+                <span className="px-3 py-1 bg-[#7C5CFF]/60 border border-[#7C5CFF]/80 text-white font-mono text-[clamp(0.65rem,1.2vmin,0.875rem)] rounded backdrop-blur-md">
+                  PRIVATE ASSISTANT
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
