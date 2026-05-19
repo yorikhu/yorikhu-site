@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Disable image optimization for large GIFs
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

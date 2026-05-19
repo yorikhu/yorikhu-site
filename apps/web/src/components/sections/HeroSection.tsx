@@ -85,6 +85,7 @@ export function HeroSection() {
               <img
                 src={ENTITY_IMAGE_URL}
                 alt="Yorik Entity 01"
+                loading="lazy"
                 className={`absolute inset-0 w-full h-full object-contain z-20 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
               />
             )}
