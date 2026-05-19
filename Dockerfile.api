@@ -6,7 +6,7 @@ RUN npm install -g pnpm@9
 WORKDIR /app
 
 # 复制整个 monorepo
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 COPY packages packages/
 COPY apps/api apps/api/
 
