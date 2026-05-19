@@ -1,31 +1,41 @@
 # API Dockerfile - Build on Linux
 FROM node:20-alpine AS builder
 
+RUN npm install -g pnpm@9
+
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
-# Copy entire project structure (needed for tsconfig references)
+# 优先复制依赖文件（利用 Docker 缓存）
+COPY package.json pnpm-lock.yaml ./
 COPY packages ./packages
 COPY apps/api ./apps/api
-COPY package.json pnpm-lock.yaml ./
 
-# Build API
 WORKDIR /app/apps/api
-RUN pnpm install
+
+# 安装所有依赖（构建需要）
+RUN pnpm install --frozen-lockfile
+
+# 构建
 RUN pnpm build
 
-# Production image
+# 删除开发依赖
+RUN pnpm prune --prod
+RUN rm -rf node_modules/.cache
+
+# ========== Production ==========
 FROM node:20-alpine
+
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
 WORKDIR /app
 
-# Copy built files
-COPY --from=builder /app/apps/api/dist ./dist/
+# 只复制生产依赖和构建产物
+COPY --from=builder --chown=nodejs:nodejs /app/apps/api/node_modules ./node_modules/
+COPY --from=builder --chown=nodejs:nodejs /app/apps/api/dist ./dist/
+COPY --from=builder --chown=nodejs:nodejs /app/apps/api/package.json ./
 
-# Copy production dependencies from builder
-COPY --from=builder /app/apps/api/node_modules ./node_modules/
+USER nodejs
 
 EXPOSE 5000
 

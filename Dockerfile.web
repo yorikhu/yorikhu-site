@@ -1,33 +1,45 @@
 # Web Dockerfile - Build on Linux
 FROM node:20-alpine AS builder
 
+RUN npm install -g pnpm@9
+
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
-# Copy entire project structure (needed for tsconfig references)
+# 优先复制依赖文件（利用 Docker 缓存）
+COPY package.json pnpm-lock.yaml ./
 COPY packages ./packages
 COPY apps/web ./apps/web
-COPY package.json pnpm-lock.yaml ./
 
-# Build Web
 WORKDIR /app/apps/web
-RUN pnpm install
+
+# 安装所有依赖（构建需要）
+RUN pnpm install --frozen-lockfile
+
+# 构建
 RUN pnpm build
 
-# Ensure public directory exists (may be empty)
+# 删除开发依赖
+RUN pnpm prune --prod
+RUN rm -rf node_modules/.cache
+
+# 确保 public 目录存在
 RUN mkdir -p public
 
-# Production image
+# ========== Production ==========
 FROM node:20-alpine
+
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
 WORKDIR /app
 
-# Copy Next.js build output and dependencies from builder
-COPY --from=builder /app/apps/web/.next ./.next/
-COPY --from=builder /app/apps/web/public ./public/
-COPY --from=builder /app/apps/web/node_modules ./node_modules/
+# 复制生产依赖、构建产物和静态资源
+COPY --from=builder --chown=nodejs:nodejs /app/apps/web/node_modules ./node_modules/
+COPY --from=builder --chown=nodejs:nodejs /app/apps/web/.next ./.next/
+COPY --from=builder --chown=nodejs:nodejs /app/apps/web/public ./public/
+COPY --from=builder --chown=nodejs:nodejs /app/apps/web/package.json ./
+
+USER nodejs
 
 EXPOSE 3000
 
