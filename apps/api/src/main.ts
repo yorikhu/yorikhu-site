@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { LoggingMiddleware } from './middleware/logging.middleware';
 
 
 async function bootstrap() {
@@ -15,9 +14,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-
-  // 注册日志中间件
-  app.use(new LoggingMiddleware());
 
   await app.listen(process.env.PORT ?? 5000);
 
