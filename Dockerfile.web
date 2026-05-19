@@ -10,13 +10,12 @@ COPY package.json pnpm-lock.yaml .npmrc ./
 COPY packages packages/
 COPY apps/web apps/web/
 
-# 使用 shamefully-hoist 安装
+# 安装所有依赖
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
-# 构建子项目
-RUN pnpm --filter web build
-
+# 进入子目录构建
 WORKDIR /app/apps/web
+RUN pnpm build
 
 # 清理开发依赖
 RUN pnpm prune --prod
