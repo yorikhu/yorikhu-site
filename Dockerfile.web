@@ -13,9 +13,10 @@ COPY apps/web apps/web/
 # 安装所有依赖
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
-# 进入子目录构建
+# 构建子项目（使用 npx 绕过符号链接问题）
+RUN npx --yes next build --config apps/web/next.config.ts
+
 WORKDIR /app/apps/web
-RUN pnpm build
 
 # 清理开发依赖
 RUN pnpm prune --prod
