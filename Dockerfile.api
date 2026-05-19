@@ -18,11 +18,14 @@ COPY apps/api apps/api/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm --filter api build
 
-# pnpm deploy 创建自包含的生产目录
+# pnpm deploy 创建自包含的生产目录（只包含 node_modules）
 RUN pnpm deploy --filter=api --prod --legacy /prod/api
 
 FROM base AS prod
+# 复制生产依赖
 COPY --from=build /prod/api /prod/api
+# 复制构建产物
+COPY --from=build /app/apps/api/dist /prod/api/dist
 WORKDIR /prod/api
 
 EXPOSE 5000

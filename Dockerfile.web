@@ -18,11 +18,15 @@ COPY apps/web apps/web/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm --filter web build
 
-# pnpm deploy 创建自包含的生产目录
+# pnpm deploy 创建自包含的生产目录（只包含 node_modules）
 RUN pnpm deploy --filter=web --prod --legacy /prod/web
 
 FROM base AS prod
+# 复制生产依赖
 COPY --from=build /prod/web /prod/web
+# 复制构建产物
+COPY --from=build /app/apps/web/.next /prod/web/.next
+COPY --from=build /app/apps/web/public /prod/web/public
 WORKDIR /prod/web
 
 EXPOSE 3000
