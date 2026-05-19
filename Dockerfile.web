@@ -31,8 +31,8 @@ COPY package.json pnpm-lock.yaml ./
 # Install production dependencies only
 RUN pnpm install --prod --frozen-lockfile
 
-# Copy Next.js build output and public assets
-COPY --from=builder /app/dist/web ./.next/
+# Copy Next.js build output (.next) and public assets
+COPY --from=builder /app/apps/web/.next ./.next/
 COPY --from=builder /app/apps/web/public ./public/
 
 EXPOSE 3000
