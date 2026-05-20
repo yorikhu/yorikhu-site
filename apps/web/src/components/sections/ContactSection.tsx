@@ -140,37 +140,43 @@ export function ContactSection() {
           <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
         </div>
         <div className="text-[#00F0FF] whitespace-pre-wrap leading-relaxed min-h-[140px] text-sm md:text-base overflow-visible">
-          <span className="inline">
-            {terminalText}
-            {(!selectedContact || isTyping) && (
-              <span className="inline-block w-2 h-5 bg-[#00F0FF] ml-1 align-middle animate-pulse"></span>
-            )}
-          </span>
-          {selectedContact && !isTyping && (
+          {selectedContact && !isTyping ? (
             <>
-              <button
-                onClick={() => handleCopy(selectedContact)}
-                className="inline-flex items-center gap-1 ml-2 text-gray-400 hover:text-[#8BFFB7] transition-colors align-middle shrink-0"
-                title="Copy to clipboard"
-              >
-                {copiedContact === selectedContact ? (
-                  <Check size={16} className="text-[#8BFFB7]" />
-                ) : (
-                  <Copy size={16} />
-                )}
-              </button>
-              {CONTACT_INFO[selectedContact as keyof typeof CONTACT_INFO].link && (
-                <a
-                  href={CONTACT_INFO[selectedContact as keyof typeof CONTACT_INFO].link || undefined}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 ml-2 text-gray-400 hover:text-[#00F0FF] transition-colors align-middle shrink-0"
-                  title="Open link"
-                >
-                  <ExternalLink size={16} />
-                </a>
-              )}
+              <div>{`> ${selectedContact.toLowerCase()}`}</div>
+              <div className="flex flex-wrap items-center gap-x-2">
+                <span>{`${selectedContact} Account:`}</span>
+                <div className="flex items-center flex-nowrap gap-2">
+                  <span className="whitespace-nowrap">{CONTACT_INFO[selectedContact as keyof typeof CONTACT_INFO].value}</span>
+                  <button
+                    onClick={() => handleCopy(selectedContact)}
+                    className="inline-flex items-center gap-1 text-gray-400 hover:text-[#8BFFB7] transition-colors shrink-0"
+                    title="Copy to clipboard"
+                  >
+                    {copiedContact === selectedContact ? (
+                      <Check size={16} className="text-[#8BFFB7]" />
+                    ) : (
+                      <Copy size={16} />
+                    )}
+                  </button>
+                  {CONTACT_INFO[selectedContact as keyof typeof CONTACT_INFO].link && (
+                    <a
+                      href={CONTACT_INFO[selectedContact as keyof typeof CONTACT_INFO].link || undefined}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-gray-400 hover:text-[#00F0FF] transition-colors shrink-0"
+                      title="Open link"
+                    >
+                      <ExternalLink size={16} />
+                    </a>
+                  )}
+                </div>
+              </div>
             </>
+          ) : (
+            <span className="inline">
+              {terminalText}
+              <span className="inline-block w-2 h-5 bg-[#00F0FF] ml-1 align-middle animate-pulse"></span>
+            </span>
           )}
         </div>
 
