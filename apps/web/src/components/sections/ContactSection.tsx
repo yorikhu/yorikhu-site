@@ -62,11 +62,33 @@ export function ContactSection() {
     typeChar();
   };
 
-  const handleCopy = (contact: string) => {
+  const handleCopy = async (contact: string) => {
     const info = CONTACT_INFO[contact as keyof typeof CONTACT_INFO].value;
-    navigator.clipboard.writeText(info);
 
-    setCopiedContact(contact);
+    // Fallback for environments where navigator.clipboard is unavailable
+    if (!navigator.clipboard) {
+      const textArea = document.createElement('textarea');
+      textArea.value = info;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopiedContact(contact);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+      document.body.removeChild(textArea);
+    } else {
+      try {
+        await navigator.clipboard.writeText(info);
+        setCopiedContact(contact);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    }
 
     if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
     copyTimeoutRef.current = setTimeout(() => {
