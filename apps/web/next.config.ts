@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Enable standalone output for smaller Docker images
+  output: 'standalone',
 };
 
 export default nextConfig;

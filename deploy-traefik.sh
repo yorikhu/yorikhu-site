@@ -22,6 +22,10 @@ echo -e "${YELLOW}Starting application...${NC}"
 docker-compose -f "$SCRIPT_DIR/docker-compose.traefik.yml" up -d --build
 
 echo ""
+echo -e "${YELLOW}Cleaning up old images...${NC}"
+docker image prune -f
+
+echo ""
 echo -e "${GREEN}Deployment complete!${NC}"
 echo "  Domains:  yorikhu.com | www.yorikhu.com"
 echo "            yorikhu.top | www.yorikhu.top"

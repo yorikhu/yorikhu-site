@@ -1,4 +1,4 @@
-# Web Dockerfile - pnpm official monorepo approach
+# Web Dockerfile - Next.js standalone mode for smaller images
 FROM node:20-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
@@ -21,21 +21,20 @@ RUN pnpm install --frozen-lockfile --shamefully-hoist
 COPY packages packages/
 COPY apps/web apps/web/
 
-# 4. 构建
+# 4. 构建（生成 standalone 输出）
 RUN cd apps/web && pnpm install --frozen-lockfile --prefer-offline && pnpm run build
 
-# pnpm deploy 创建自包含的生产目录（包含所有依赖）
-RUN pnpm deploy --filter=web --legacy /prod/web
-
 FROM base AS prod
-# 复制生产依赖
-COPY --from=build /prod/web /prod/web
-# 复制构建产物
-COPY --from=build /app/apps/web/.next /prod/web/.next
-WORKDIR /prod/web
+# 只复制 standalone 必需的文件
+COPY --from=build /app/apps/web/.next/standalone ./
+COPY --from=build /app/apps/web/.next/static .next/static
+COPY --from=build /app/apps/web/public ./public
+
+WORKDIR /app
 
 EXPOSE 3000
 
 ENV NODE_ENV=production
+ENV HOSTNAME="0.0.0.0"
 
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]
