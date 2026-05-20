@@ -12,7 +12,7 @@ export function AboutSection() {
         <Fingerprint className="mx-auto text-white/10 mb-8" size={64} />
         <div className="text-2xl md:text-4xl font-light text-white tracking-wide flex flex-col space-y-1 mb-8">
           <p>我相信未来的创作者，</p>
-          <p>既是设计师、开发者，更是<span className="text-[#FF5E7E] font-bold text-glitch-hover inline-block mx-2">导演</span>与</p>
+          <p>既是开发者、设计师，更是<span className="text-[#FF5E7E] font-bold text-glitch-hover inline-block mx-2">导演</span>与</p>
           <p><span className="text-[#00F0FF] font-bold text-glitch-hover inline-block mx-2">世界构建者</span>。</p>
         </div>
         <div className="text-2xl md:text-4xl font-light text-white tracking-wide">

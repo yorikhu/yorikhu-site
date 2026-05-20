@@ -63,7 +63,7 @@ export function HeroSection() {
                 </span>
               </span>
             </span>
-            融合设计、代码与 AI，构建数字生命。<br/>
+            融合代码、设计与 AI，构建数字生命。<br/>
             这不是一个普通的主页，这是我的数字世界。
           </p>
           <div className="pt-[clamp(1rem,3vmin,4rem)]">
