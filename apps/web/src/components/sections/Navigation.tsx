@@ -15,7 +15,7 @@ export function Navigation() {
     <nav className="fixed top-0 w-full px-6 flex justify-between items-center z-40 backdrop-blur-md border-b border-white/5 bg-[#0D0D0D]/70" style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))', paddingBottom: '1.5rem' }}>
       <Link href="/" className="flex items-center gap-2 text-white font-bold tracking-[0.2em] cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap">
         <Sprout size={24} className="text-[#8BFFB7]" />
-        <span>YORIK HU</span>
+        <span>攸悠作集</span>
       </Link>
       <div className="hidden md:flex gap-8 text-sm font-mono tracking-wider text-gray-500">
         {navLinks.map((link) => (
