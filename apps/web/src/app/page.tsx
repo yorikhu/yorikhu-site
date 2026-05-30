@@ -28,7 +28,7 @@ export default function HomePage() {
       <Navigation />
       <HeroSection />
       <WorksSection />
-      <SystemsSection />
+      {/* <SystemsSection /> */}
       <FragmentsSection />
       <AboutSection />
       <ContactSection />
