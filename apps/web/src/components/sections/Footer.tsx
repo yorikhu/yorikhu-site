@@ -15,6 +15,15 @@ export function Footer() {
         >
           浙ICP备2026035672号-1
         </a>
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=33010202005760"
+          target="_blank"
+          rel="noreferrer"
+          className="hover:text-gray-400 transition-colors whitespace-nowrap inline-flex items-center gap-1"
+        >
+          <img src="/images/beian.png" alt="公安备案" className="w-3 h-3" />
+          浙公网安备33010202005760号
+        </a>
       </div>
     </footer>
   );
