@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Navigation } from "@/components/sections/Navigation";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { WorksSection } from "@/components/sections/WorksSection";
-import { SystemsSection } from "@/components/sections/SystemsSection";
+import { TechStackSection } from "@/components/sections/TechStackSection";
 import { FragmentsSection } from "@/components/sections/FragmentsSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -28,9 +28,9 @@ export default function HomePage() {
       <Navigation />
       <HeroSection />
       <WorksSection />
-      {/* <SystemsSection /> */}
-      <FragmentsSection />
+      <TechStackSection />
       <AboutSection />
+      <FragmentsSection />
       <ContactSection />
       <Footer />
     </div>

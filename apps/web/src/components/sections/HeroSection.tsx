@@ -45,9 +45,9 @@ export function HeroSection() {
               <span className="text-gray-700 font-light">×</span> ALIVE
             </span>
           </h1>
-          <p className="text-[clamp(1.125rem,2.2vmin,2.5rem)] text-gray-400 max-w-[clamp(30rem,50vmin,65rem)] font-light leading-relaxed">
-            <span
-              className="flex items-center gap-4 mb-4 cursor-crosshair group/name whitespace-nowrap"
+          <div className="space-y-[clamp(1rem,2vmin,2rem)] text-[clamp(1.125rem,2.2vmin,2.5rem)] text-gray-400 max-w-[clamp(30rem,50vmin,65rem)] font-light leading-relaxed">
+            <p
+              className="flex items-center gap-4 cursor-crosshair group/name whitespace-nowrap"
               onMouseEnter={() => setIsHoveringName(true)}
               onMouseLeave={() => setIsHoveringName(false)}
             >
@@ -62,10 +62,19 @@ export function HeroSection() {
                   {isHoveringName ? '胡永琪' : 'YORIK HU'}
                 </span>
               </span>
-            </span>
-            融合 AIGC、灵感与代码，构建数字生命。<br/>
-            这不是一个普通的主页，这是我的数字世界。
-          </p>
+            </p>
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="text-[#00F0FF] font-medium">Web 全栈开发者</span>
+              <span className="text-gray-600">/</span>
+              <span className="text-white">H5 页面开发</span>
+              <span className="text-gray-600">/</span>
+              <span className="text-white">小程序开发</span>
+            </div>
+            <p className="text-gray-500">
+              主攻 <span className="text-[#7C5CFF]">React</span> 与 <span className="text-[#8BFFB7]">Vue</span> 技术栈<br/>
+              从创意页面到企业应用，构建完整的 Web 解决方案
+            </p>
+          </div>
           <div className="pt-[clamp(1rem,3vmin,4rem)]">
             <Link href="/maintenance" className="group inline-flex items-center gap-3 bg-white text-black px-[clamp(1.5rem,3vmin,4rem)] py-[clamp(1rem,2vmin,2.5rem)] font-bold text-[clamp(1rem,1.8vmin,2rem)] hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
               EXPLORE UNIVERSE <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />

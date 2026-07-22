@@ -6,7 +6,7 @@ import Link from "next/link";
 export function Navigation() {
   const navLinks = [
     { href: "/works", label: "WORKS", color: "hover:text-[#00F0FF]", shadow: "hover:drop-shadow-[0_0_8px_rgba(0,240,255,0.5)]" },
-    { href: "/systems", label: "SYSTEMS", color: "hover:text-[#7C5CFF]", shadow: "hover:drop-shadow-[0_0_8px_rgba(124,92,255,0.5)]" },
+    { href: "#stack", label: "STACK", color: "hover:text-[#7C5CFF]", shadow: "hover:drop-shadow-[0_0_8px_rgba(124,92,255,0.5)]" },
     { href: "/fragments", label: "FRAGMENTS", color: "hover:text-[#8BFFB7]", shadow: "hover:drop-shadow-[0_0_8px_rgba(139,255,183,0.5)]" },
     { href: "/contact", label: "TERMINAL", color: "hover:text-[#FF5E7E]", shadow: "hover:drop-shadow-[0_0_8px_rgba(255,94,126,0.5)]" },
   ];

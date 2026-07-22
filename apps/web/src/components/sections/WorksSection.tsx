@@ -12,12 +12,12 @@ interface WorkItem {
 }
 
 const works: WorkItem[] = [
-  { title: '数字摄影 01', tag: 'Photography', color: 'border-[#7C5CFF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop' },
-  { title: '光影实验', tag: 'Photography', color: 'border-[#00F0FF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop' },
-  { title: '数字画廊', tag: 'WebGL', color: 'border-[#8BFFB7]', height: 'h-80', img: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=600&auto=format&fit=crop' },
-  { title: '品牌视觉重构', tag: 'UI / UX', color: 'border-[#FF5E7E]', height: 'h-80', img: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=600&auto=format&fit=crop' },
-  { title: '动效实验 04', tag: 'Framer Motion', color: 'border-[#7C5CFF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop' },
-  { title: '智能生成组件', tag: 'Agent', color: 'border-gray-500', height: 'h-80', img: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=600&auto=format&fit=crop' },
+  { title: '企业级管理系统', tag: 'React + NestJS', color: 'border-[#7C5CFF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop' },
+  { title: '电商小程序', tag: '微信小程序', color: 'border-[#00F0FF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&auto=format&fit=crop' },
+  { title: 'H5 营销活动页', tag: 'Vue + Vite', color: 'border-[#8BFFB7]', height: 'h-80', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop' },
+  { title: 'SaaS 产品官网', tag: 'Next.js', color: 'border-[#FF5E7E]', height: 'h-80', img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=600&auto=format&fit=crop' },
+  { title: '数据可视化平台', tag: 'Vue3 + ECharts', color: 'border-[#7C5CFF]', height: 'h-80', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop' },
+  { title: 'API 服务网关', tag: 'Node.js + Docker', color: 'border-gray-500', height: 'h-80', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=600&auto=format&fit=crop' },
 ];
 
 export function WorksSection() {

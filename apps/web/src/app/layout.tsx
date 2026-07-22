@@ -17,8 +17,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "攸悠作集",
-  description: "融合设计、代码与 AI，构建数字生命",
+  title: "攸悠作集 | Yorik Hu - Web 全栈开发者",
+  description: "Web 全栈开发者，专注 H5 页面开发与小程序开发。精通 React、Vue、Next.js、NestJS 等技术栈，提供完整的前后端解决方案。",
 };
 
 export const viewport: Viewport = {
