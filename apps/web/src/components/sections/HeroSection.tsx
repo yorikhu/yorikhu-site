@@ -71,8 +71,9 @@ export function HeroSection() {
               <span className="text-white">小程序开发</span>
             </div>
             <p className="text-gray-500">
-              主攻 <span className="text-[#7C5CFF]">React</span> 与 <span className="text-[#8BFFB7]">Vue</span> 技术栈<br/>
-              从创意页面到企业应用，构建完整的 Web 解决方案
+              专注 Web 全栈开发<br/>
+              以前端为支点，向后延伸全链路能力<br/>
+              现代框架 · 工程化 · 性能优化
             </p>
           </div>
           <div className="pt-[clamp(1rem,3vmin,4rem)]">
