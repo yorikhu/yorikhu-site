@@ -52,3 +52,7 @@ lerna-debug.log*
 
 # Claude Code
 .claude/
+
+# Nginx 证书（仅保留 .gitkeep，证书文件不入库）
+nginx/certs/*
+!nginx/certs/.gitkeep
