@@ -1,14 +1,11 @@
 "use client";
 
-import { Navigation } from "@/components/sections/Navigation";
 import { Construction, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function MaintenancePage() {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-gray-300 font-sans selection:bg-[#7C5CFF] selection:text-white relative overflow-hidden crt-overlay">
-      <Navigation />
-
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7C5CFF]/5 via-transparent to-transparent opacity-50 blur-3xl"></div>
 
@@ -59,7 +56,7 @@ export default function MaintenancePage() {
 
           {/* Back button */}
           <Link
-            href="/"
+            href="/home"
             className="inline-flex items-center gap-3 bg-white text-black px-8 py-4 font-bold hover:bg-[#00F0FF] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]"
           >
             <ArrowLeft size={20} />
